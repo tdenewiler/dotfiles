@@ -1,0 +1,108 @@
+" Formatting, indentation, etc.
+set nocompatible
+set autoindent
+set smartindent
+set tabstop=4
+set shiftwidth=4
+set ruler
+set incsearch
+set backspace=indent,eol,start
+set expandtab
+
+" In certain files do not let a # character move to first column.
+autocmd BufRead *.txt inoremap # X<c-h>#
+
+" Make <space> in normal mode go down a page rather than left a character.
+noremap <space> <C-f>
+
+" Map navigation between windows.
+map cn <esc>:cn<CR>
+map cp <esc>:cp<CR>
+map <C-J> <C-W>j<C-W>_
+map <C-K> <C-W>k<C-W>_
+nmap <silent> <A-Up> :wincmd k<CR>
+nmap <silent> <A-Down> :wincmd j<CR>
+nmap <silent> <A-Left> :wincmd h<CR>
+nmap <silent> <A-Right> :wincmd l<CR>
+
+" Turn off audible and visual error bells.
+set noerrorbells
+set vb t_vb=""
+autocmd VimEnter * set vb t_vb=
+
+" Appearance.
+set guifont=Andale\ Mono\ 7
+colorscheme default
+" Remove menu.
+set guioptions-=m
+" Remove right sCRoll bar.
+set guioptions-=r
+" Remove left sCRoll bar.
+set guioptions-=l
+" Remove toolbar.
+set guioptions-=T
+
+" Ctags support.
+let g:ctags_statusline=1
+
+" Show the current function name in the status bar. Use <f>.
+fun! ShowFuncName()
+  let lnum = line(".")
+  let col = col(".")
+  echohl ModeMsg
+  echo getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", 'bW'))
+  echohl None
+  call search("\\%" . lnum . "l" . "\\%" . col . "c")
+endfun
+map f :call ShowFuncName() <CR>
+
+" Automatically call astyle to format code when opening a file.
+" Note that Artistic Style must be installed. Use <gg><gqG>
+" for entire file or <gq][> from the top of a function to
+" only format a function.
+"autocmd BufNewFile,BufRead *.cc set formatprg=astyle\ -bpHUs2
+:nnoremap <silent> <F3> :formatprg=astyle\ -bpHUs2<CR>
+:nnoremap <silent> <F7> gggqG
+
+" Use <F5> to remove trailing whitespace.
+:nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+
+" Use <F6> to condense multiple empty lines into a single empty line.
+:nnoremap <silent> <F6> :%s/\n\{3,}/\r\r/e<CR>
+
+" Use <F9> to find fprintf NOT preceded by comment.
+:nnoremap <silent> <F9> /\(\/\/.*\)\@<!fprintf<CR>
+
+" Use CMake syntax highlighting for more than just default filenames.
+au BufNewFile,BufRead CMake*.txt set filetype=cmake
+au BufNewFile,BufRead Behavior_*.txt set filetype=cmake
+au BufNewFile,BufRead Capability_*.txt set filetype=cmake
+au BufNewFile,BufRead Comms_*.txt set filetype=cmake
+au BufNewFile,BufRead Device*.txt set filetype=cmake
+au BufNewFile,BufRead Perception*.txt set filetype=cmake
+au BufNewFile,BufRead PlayerDependent*.txt set filetype=cmake
+au BufNewFile,BufRead *.urdf set filetype=xml
+au BufNewFile,BufRead *.launch set filetype=xml
+filetype plugin on
+
+" Use different spacing per file type.
+autocmd Filetype cpp setlocal ts=2 sts=2 sw=2
+autocmd Filetype xml setlocal ts=2 sts=2 sw=2
+autocmd Filetype launch setlocal ts=2 sts=2 sw=2
+autocmd Filetype python setlocal ts=4 sts=4 sw=4
+
+" Pathogen (https://github.com/tpope/vim-pathogen)
+execute pathogen#infect()
+
+" Syntastic (https://github.com/scrooloose/syntastic)
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_signs = 1
+let g:syntastic_auto_loc_list = 2
+let g:syntastic_cpp_check_header = 1
+let g:syntastic_cpp_no_include_search = 0
+let g:syntastic_cpp_compiler = "g++"
+let g:syntastic_error_symbol = "X"
+let g:syntastic_style_error_symbol = ">"
+let g:syntastic_warning_symbol = "!"
+let g:syntastic_style_warning_symbol = ">"
