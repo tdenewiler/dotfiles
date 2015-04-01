@@ -1,0 +1,10 @@
+# Bash aliases.
+alias la='ls -a'
+alias ll='ls -l'
+
+if [ -f ~/.bash_prompt ]; then
+    source ~/.bash_prompt
+fi
+
+# ROS.
+#export ROSCONSOLE_FORMAT='[${severity}] - ${node}:${line}: [${time}] ${message}'
