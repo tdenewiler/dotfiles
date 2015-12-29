@@ -24,6 +24,15 @@ nmap <silent> <A-Up> :wincmd k<CR>
 nmap <silent> <A-Down> :wincmd j<CR>
 nmap <silent> <A-Left> :wincmd h<CR>
 nmap <silent> <A-Right> :wincmd l<CR>
+nmap <silent> <A-1> 1gt
+nmap <silent> <A-2> 2gt
+nmap <silent> <A-3> 3gt
+nmap <silent> <A-4> 4gt
+nmap <silent> <A-5> 5gt
+nmap <silent> <A-6> 6gt
+nmap <silent> <A-7> 7gt
+nmap <silent> <A-8> 8gt
+nmap <silent> <A-9> 9gt
 
 " Turn off audible and visual error bells.
 set noerrorbells
@@ -56,6 +65,8 @@ fun! ShowFuncName()
 endfun
 map f :call ShowFuncName() <CR>
 
+:vnoremap <F4> d:execute 'normal i' . join(sort(split(getreg('"'))), ' ')<CR>
+
 " Automatically call astyle to format code when opening a file.
 " Note that Artistic Style must be installed. Use <gg><gqG>
 " for entire file or <gq][> from the top of a function to
@@ -73,6 +84,13 @@ map f :call ShowFuncName() <CR>
 " Use <F9> to find fprintf NOT preceded by comment.
 :nnoremap <silent> <F9> /\(\/\/.*\)\@<!fprintf<CR>
 
+" Toggle spell checking in the current buffer.
+" Use zg to add word under cursor to dictionary.
+map <F8> :setlocal spell! spelllang=en<CR>
+
+" Use <F3> to remove Windows line endings.
+map <F3> :%s/\r$//
+
 " Use CMake syntax highlighting for more than just default filenames.
 au BufNewFile,BufRead CMake*.txt set filetype=cmake
 au BufNewFile,BufRead Behavior_*.txt set filetype=cmake
@@ -85,24 +103,40 @@ au BufNewFile,BufRead *.urdf set filetype=xml
 au BufNewFile,BufRead *.launch set filetype=xml
 filetype plugin on
 
-" Use different spacing per file type.
+" Use different number of spaces per tab based on filename extension.
 autocmd Filetype cpp setlocal ts=2 sts=2 sw=2
 autocmd Filetype xml setlocal ts=2 sts=2 sw=2
 autocmd Filetype launch setlocal ts=2 sts=2 sw=2
 autocmd Filetype python setlocal ts=4 sts=4 sw=4
+autocmd Filetype tex setlocal ts=2 sts=2 sw=2
+autocmd Filetype yml setlocal ts=2 sts=2 sw=2
+autocmd Filetype yaml setlocal ts=2 sts=2 sw=2
+autocmd Filetype md setlocal ts=2 sts=2 sw=2
+
+" Place a vertical bar in the specified column.
+"set colorcolumn=120
+"match ErrorMsg '\%>120v.\+'
+au FileType cpp setlocal colorcolumn=120
+au FileType python setlocal colorcolumn=80
+au FileType tex setlocal colorcolumn=120
+au FileType launch setlocal colorcolumn=120
+au FileType yaml setlocal colorcolumn=120
+au FileType xml setlocal colorcolumn=120
+au FileType md setlocal colorcolumn=120
 
 " Pathogen (https://github.com/tpope/vim-pathogen)
 execute pathogen#infect()
 
 " Syntastic (https://github.com/scrooloose/syntastic)
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_enable_signs = 1
-let g:syntastic_auto_loc_list = 2
-let g:syntastic_cpp_check_header = 1
-let g:syntastic_cpp_no_include_search = 0
-let g:syntastic_cpp_compiler = "g++"
-let g:syntastic_error_symbol = "X"
-let g:syntastic_style_error_symbol = ">"
-let g:syntastic_warning_symbol = "!"
-let g:syntastic_style_warning_symbol = ">"
+let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_enable_signs = 1
+" let g:syntastic_auto_loc_list = 2
+" let g:syntastic_cpp_check_header = 1
+" let g:syntastic_cpp_no_include_search = 0
+" let g:syntastic_cpp_compiler = "g++"
+" let g:syntastic_error_symbol = "X"
+" let g:syntastic_style_error_symbol = ">"
+" let g:syntastic_warning_symbol = "!"
+" let g:syntastic_style_warning_symbol = ">"
