@@ -65,7 +65,8 @@ fun! ShowFuncName()
 endfun
 map f :call ShowFuncName() <CR>
 
-:vnoremap <F4> d:execute 'normal i' . join(sort(split(getreg('"'))), ' ')<CR>
+" Use <F2> to sort words in a visual selection alphabetically.
+:vnoremap <F2> d:execute 'normal i' . join(sort(split(getreg('"'))), ' ')<CR>
 
 " Automatically call astyle to format code when opening a file.
 " Note that Artistic Style must be installed. Use <gg><gqG>
@@ -73,56 +74,38 @@ map f :call ShowFuncName() <CR>
 " only format a function.
 "autocmd BufNewFile,BufRead *.cc set formatprg=astyle\ -bpHUs2
 :nnoremap <silent> <F3> :formatprg=astyle\ -bpHUs2<CR>
-:nnoremap <silent> <F7> gggqG
+:nnoremap <silent> <F4> gggqG
 
-" Use <F5> to remove trailing whitespace.
-:nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+" Use <F5> to remove Windows line endings.
+map <F5> :%s/\r$//
 
-" Use <F6> to condense multiple empty lines into a single empty line.
-:nnoremap <silent> <F6> :%s/\n\{3,}/\r\r/e<CR>
+" Use <F6> to remove trailing whitespace.
+:nnoremap <silent> <F6> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
-" Use <F9> to find fprintf NOT preceded by comment.
-:nnoremap <silent> <F9> /\(\/\/.*\)\@<!fprintf<CR>
+" Use <F7> to condense multiple empty lines into a single empty line.
+:nnoremap <silent> <F7> :%s/\n\{3,}/\r\r/e<CR>
 
 " Toggle spell checking in the current buffer.
 " Use zg to add word under cursor to dictionary.
 map <F8> :setlocal spell! spelllang=en<CR>
 
-" Use <F3> to remove Windows line endings.
-map <F3> :%s/\r$//
+" Use <F9> to find fprintf NOT preceded by comment.
+:nnoremap <silent> <F9> /\(\/\/.*\)\@<!fprintf<CR>
 
 " Use CMake syntax highlighting for more than just default filenames.
-au BufNewFile,BufRead CMake*.txt set filetype=cmake
-au BufNewFile,BufRead Behavior_*.txt set filetype=cmake
-au BufNewFile,BufRead Capability_*.txt set filetype=cmake
-au BufNewFile,BufRead Comms_*.txt set filetype=cmake
-au BufNewFile,BufRead Device*.txt set filetype=cmake
-au BufNewFile,BufRead Perception*.txt set filetype=cmake
-au BufNewFile,BufRead PlayerDependent*.txt set filetype=cmake
 au BufNewFile,BufRead *.urdf set filetype=xml
 au BufNewFile,BufRead *.launch set filetype=xml
+au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
 filetype plugin on
 
 " Use different number of spaces per tab based on filename extension.
-autocmd Filetype cpp setlocal ts=2 sts=2 sw=2
-autocmd Filetype xml setlocal ts=2 sts=2 sw=2
-autocmd Filetype launch setlocal ts=2 sts=2 sw=2
+set ts=2 sts=2 sw=2
 autocmd Filetype python setlocal ts=4 sts=4 sw=4
-autocmd Filetype tex setlocal ts=2 sts=2 sw=2
-autocmd Filetype yml setlocal ts=2 sts=2 sw=2
-autocmd Filetype yaml setlocal ts=2 sts=2 sw=2
-autocmd Filetype md setlocal ts=2 sts=2 sw=2
 
 " Place a vertical bar in the specified column.
-"set colorcolumn=120
-"match ErrorMsg '\%>120v.\+'
-au FileType cpp setlocal colorcolumn=120
+set colorcolumn=120
 au FileType python setlocal colorcolumn=80
-au FileType tex setlocal colorcolumn=120
-au FileType launch setlocal colorcolumn=120
-au FileType yaml setlocal colorcolumn=120
-au FileType xml setlocal colorcolumn=120
-au FileType md setlocal colorcolumn=120
+"match ErrorMsg '\%>120v.\+'
 
 " Pathogen (https://github.com/tpope/vim-pathogen)
 execute pathogen#infect()
