@@ -100,10 +100,8 @@ au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
 au BufNewFile,BufFilePre,BufRead *.js set filetype=javascript
 filetype plugin on
 
-" Use different spacing per file type.
-autocmd Filetype cpp setlocal ts=2 sts=2 sw=2
-autocmd Filetype xml setlocal ts=2 sts=2 sw=2
-autocmd Filetype launch setlocal ts=2 sts=2 sw=2
+" Use different number of spaces per tab based on filename extension.
+set ts=2 sts=2 sw=2
 autocmd Filetype python setlocal ts=4 sts=4 sw=4
 
 " Place a vertical bar in the specified column.
