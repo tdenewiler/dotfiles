@@ -74,11 +74,11 @@ map f :call ShowFuncName() <CR>
 " for entire file or <gq][> from the top of a function to
 " only format a function.
 "autocmd BufNewFile,BufRead *.cc set formatprg=astyle\ -bpHUs2
-:nnoremap <silent> <F3> :formatprg=astyle\ -bpHUs2<CR>
-:nnoremap <silent> <F4> gggqG
+":nnoremap <silent> <F3> :formatprg=astyle\ -bpHUs2<CR>
+":nnoremap <silent> <F4> gggqG
 
 " Remove Windows line endings.
-map <F5> :%s/\r$//
+"map <F5> :%s/\r$//
 
 " Remove trailing whitespace.
 :nnoremap <silent> <F6> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
@@ -91,7 +91,7 @@ map <F5> :%s/\r$//
 map <F8> :setlocal spell! spelllang=en<CR>
 
 " Find fprintf NOT preceded by comment.
-:nnoremap <silent> <F9> /\(\/\/.*\)\@<!fprintf<CR>
+":nnoremap <silent> <F9> /\(\/\/.*\)\@<!fprintf<CR>
 
 " Use CMake syntax highlighting for more than just default filenames.
 au BufNewFile,BufRead *.urdf set filetype=xml
@@ -131,7 +131,11 @@ Plug 'https://github.com/scrooloose/syntastic'
 Plug 'https://github.com/scrooloose/nerdtree'
 Plug 'https://github.com/vim-airline/vim-airline'
 Plug 'https://github.com/tpope/vim-fugitive'
+Plug 'https://github.com/nvie/vim-flake8'
+"Plug 'https://github.com/Rip-Rip/clang_complete'
 call plug#end()
+
+set laststatus=2 " Allows vim-airline to show up with single file open
 
 " NERDTree configuration
 " 2 lines for showing at startup if no files specified
@@ -139,6 +143,9 @@ call plug#end()
 "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 map <C-n> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Flake8
+autocmd FileType python map <buffer> <F3> :call Flake8()<CR>
 
 " Pathogen (https://github.com/tpope/vim-pathogen)
 execute pathogen#infect()
