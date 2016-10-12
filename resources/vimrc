@@ -1,3 +1,45 @@
+" Vim-plug (https://github.com/junegunn/vim-plug)
+call plug#begin('~/.vim/plugged')
+Plug 'https://github.com/taketwo/vim-ros'
+Plug 'https://github.com/scrooloose/syntastic'
+Plug 'https://github.com/scrooloose/nerdtree'
+Plug 'https://github.com/vim-airline/vim-airline'
+Plug 'https://github.com/vim-airline/vim-airline-themes'
+Plug 'https://github.com/tpope/vim-fugitive'
+"Plug 'https://github.com/nvie/vim-flake8'
+"Plug 'https://github.com/Rip-Rip/clang_complete'
+call plug#end()
+
+set laststatus=2 " Allows vim-airline to show up with single file open
+
+" NERDTree configuration
+" 2 lines for showing at startup if no files specified
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+map <C-n> :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Flake8
+autocmd FileType python map <buffer> <F3> :call Flake8()<CR>
+
+" Syntastic (https://github.com/scrooloose/syntastic)
+let g:syntastic_always_populate_loc_list = 1
+let g:javascript_plugin_jsdoc = 1
+
+" Sort words in a visual selection alphabetically.
+:vnoremap <F2> d:execute 'normal i' . join(sort(split(getreg('"'))), ' ')<CR>
+:vnoremap <C-\> d:execute 'normal i' . join(sort(split(getreg('"'))), ' ')<CR>
+
+" Remove trailing whitespace.
+:nnoremap <silent> <F6> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+
+" Condense multiple empty lines into a single empty line.
+:nnoremap <silent> <F7> :%s/\n\{3,}/\r\r/e<CR>
+
+" Toggle spell checking in the current buffer.
+" Use zg to add word under cursor to dictionary.
+map <F8> :setlocal spell! spelllang=en<CR>
+
 " Formatting, indentation, etc.
 set nocompatible
 set autoindent
@@ -24,32 +66,14 @@ nmap <silent> <A-Up> :wincmd k<CR>
 nmap <silent> <A-Down> :wincmd j<CR>
 nmap <silent> <A-Left> :wincmd h<CR>
 nmap <silent> <A-Right> :wincmd l<CR>
-nmap <silent> <A-1> 1gt
-nmap <silent> <A-2> 2gt
-nmap <silent> <A-3> 3gt
-nmap <silent> <A-4> 4gt
-nmap <silent> <A-5> 5gt
-nmap <silent> <A-6> 6gt
-nmap <silent> <A-7> 7gt
-nmap <silent> <A-8> 8gt
-nmap <silent> <A-9> 9gt
-
-" Turn off audible and visual error bells.
-set noerrorbells
-set vb t_vb=""
-autocmd VimEnter * set vb t_vb=
 
 " Appearance.
 set guifont=Andale\ Mono\ 7
 colorscheme default
-" Remove menu.
-set guioptions-=m
-" Remove right sCRoll bar.
-set guioptions-=r
-" Remove left sCRoll bar.
-set guioptions-=l
-" Remove toolbar.
-set guioptions-=T
+set guioptions-=m " Remove menu.
+set guioptions-=r " Remove right sCRoll bar.
+set guioptions-=l " Remove left sCRoll bar.
+set guioptions-=T " Remove toolbar.
 
 " Ctags support.
 let g:ctags_statusline=1
@@ -65,35 +89,7 @@ fun! ShowFuncName()
 endfun
 map f :call ShowFuncName() <CR>
 
-" Sort words in a visual selection alphabetically.
-:vnoremap <F2> d:execute 'normal i' . join(sort(split(getreg('"'))), ' ')<CR>
-:vnoremap <C-\> d:execute 'normal i' . join(sort(split(getreg('"'))), ' ')<CR>
-
-" Automatically call astyle to format code when opening a file.
-" Note that Artistic Style must be installed. Use <gg><gqG>
-" for entire file or <gq][> from the top of a function to
-" only format a function.
-"autocmd BufNewFile,BufRead *.cc set formatprg=astyle\ -bpHUs2
-":nnoremap <silent> <F3> :formatprg=astyle\ -bpHUs2<CR>
-":nnoremap <silent> <F4> gggqG
-
-" Remove Windows line endings.
-"map <F5> :%s/\r$//
-
-" Remove trailing whitespace.
-:nnoremap <silent> <F6> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
-
-" Condense multiple empty lines into a single empty line.
-:nnoremap <silent> <F7> :%s/\n\{3,}/\r\r/e<CR>
-
-" Toggle spell checking in the current buffer.
-" Use zg to add word under cursor to dictionary.
-map <F8> :setlocal spell! spelllang=en<CR>
-
-" Find fprintf NOT preceded by comment.
-":nnoremap <silent> <F9> /\(\/\/.*\)\@<!fprintf<CR>
-
-" Use CMake syntax highlighting for more than just default filenames.
+" Syntax highlighting for more than just default filenames.
 au BufNewFile,BufRead *.urdf set filetype=xml
 au BufNewFile,BufRead *.launch set filetype=xml
 au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
@@ -109,58 +105,7 @@ set colorcolumn=120
 au FileType python setlocal colorcolumn=80
 "match ErrorMsg '\%>120v.\+'
 
-" Vundle (https://github.com/VundleVim/Vundle.vim)
-"set nocompatible
-"filetype off
-"set rtp+=~/.vim/bundle/Vundle.vim
-"call vundle#begin()
-"Plugin 'VundleVim/Vundle.vim'
-"Plugin 'taketwo/vim-ros'
-"Plugin 'scrooloose/syntastic'
-"call vundle#end()
-"filetype plugin indent on
-"let g:ycm_semantic_triggers = {
-"      \ 'roslaunch' : ['="', '$(', '/'],
-"      \ 'rosmsg,rossrv,rosaction' : ['re!^', '/'],
-"      \ }
-
-" Vim-plug (https://github.com/junegunn/vim-plug)
-call plug#begin('~/.vim/plugged')
-Plug 'https://github.com/taketwo/vim-ros'
-Plug 'https://github.com/scrooloose/syntastic'
-Plug 'https://github.com/scrooloose/nerdtree'
-Plug 'https://github.com/vim-airline/vim-airline'
-Plug 'https://github.com/tpope/vim-fugitive'
-Plug 'https://github.com/nvie/vim-flake8'
-"Plug 'https://github.com/Rip-Rip/clang_complete'
-call plug#end()
-
-set laststatus=2 " Allows vim-airline to show up with single file open
-
-" NERDTree configuration
-" 2 lines for showing at startup if no files specified
-"autocmd StdinReadPre * let s:std_in=1
-"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-map <C-n> :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-" Flake8
-autocmd FileType python map <buffer> <F3> :call Flake8()<CR>
-
-" Pathogen (https://github.com/tpope/vim-pathogen)
-execute pathogen#infect()
-
-" Syntastic (https://github.com/scrooloose/syntastic)
-let g:syntastic_always_populate_loc_list = 1
-let g:javascript_plugin_jsdoc = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-" let g:syntastic_enable_signs = 1
-" let g:syntastic_auto_loc_list = 2
-" let g:syntastic_cpp_check_header = 1
-" let g:syntastic_cpp_no_include_search = 0
-" let g:syntastic_cpp_compiler = "g++"
-" let g:syntastic_error_symbol = "X"
-" let g:syntastic_style_error_symbol = ">"
-" let g:syntastic_warning_symbol = "!"
-" let g:syntastic_style_warning_symbol = ">"
+" Turn off audible and visual error bells.
+set noerrorbells
+set vb t_vb=""
+autocmd VimEnter * set vb t_vb=
