@@ -9,6 +9,7 @@ Plug 'https://github.com/tpope/vim-fugitive'
 "Plug 'https://github.com/nvie/vim-flake8'
 "Plug 'https://github.com/Rip-Rip/clang_complete'
 Plug 'https://github.com/suan/vim-instant-markdown'
+Plug 'https://github.com/rhysd/vim-clang-format'
 call plug#end()
 
 set laststatus=2 " Allows vim-airline to show up with single file open
@@ -26,7 +27,7 @@ autocmd FileType python map <buffer> <F3> :call Flake8()<CR>
 " Syntastic (https://github.com/scrooloose/syntastic)
 let g:syntastic_always_populate_loc_list = 1
 let g:javascript_plugin_jsdoc = 1
-let g:syntastic_python_checkers = ['pylint', 'pylama', 'pyflakes', 'frosted', 'mypy', 'prospector', 'pycodestyle', 'python']
+let g:syntastic_python_checkers = ['pylint', 'pep8', 'pep257', 'pylama', 'pyflakes', 'frosted', 'mypy', 'prospector', 'pycodestyle', 'python']
 
 " Instant Markdown
 let g:instant_markdown_slow = 1
@@ -73,7 +74,7 @@ nmap <silent> <A-Left> :wincmd h<CR>
 nmap <silent> <A-Right> :wincmd l<CR>
 
 " Appearance.
-set guifont=Andale\ Mono\ 7
+set guifont=Andale\ Mono\ 9
 colorscheme default
 set guioptions-=m " Remove menu.
 set guioptions-=r " Remove right sCRoll bar.
@@ -108,7 +109,7 @@ autocmd Filetype python setlocal ts=4 sts=4 sw=4
 " Place a vertical bar in the specified column.
 set colorcolumn=120
 au FileType python setlocal colorcolumn=80
-au FileType markdown setlocal colorcolumn=115
+au FileType markdown setlocal colorcolumn=120
 "match ErrorMsg '\%>120v.\+'
 
 " Turn off audible and visual error bells.
