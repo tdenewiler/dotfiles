@@ -10,6 +10,7 @@ Plug 'https://github.com/tpope/vim-fugitive'
 "Plug 'https://github.com/Rip-Rip/clang_complete'
 Plug 'https://github.com/suan/vim-instant-markdown'
 Plug 'https://github.com/rhysd/vim-clang-format'
+Plug 'https://github.com/Shutnik/jshint2.vim'
 call plug#end()
 
 set laststatus=2 " Allows vim-airline to show up with single file open

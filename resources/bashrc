@@ -9,11 +9,11 @@ fi
 
 # Prompts
 if [ -f ~/.bash_prompt ]; then
-    source ~/.bash_prompt
+    . ~/.bash_prompt
 fi
 
 if [ -f ~/.git-prompt.sh ]; then
-    source ~/.git-prompt.sh
+    . ~/.git-prompt.sh
 fi
 
 # ROS
