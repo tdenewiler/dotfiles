@@ -11,9 +11,19 @@ Plug 'https://github.com/tpope/vim-fugitive'
 Plug 'https://github.com/suan/vim-instant-markdown'
 Plug 'https://github.com/rhysd/vim-clang-format'
 Plug 'https://github.com/Shutnik/jshint2.vim'
+Plug 'https://github.com/ajh17/VimCompletesMe'
+Plug 'https://github.com/dense-analysis/ale'
 call plug#end()
 
 set laststatus=2 " Allows vim-airline to show up with single file open
+set t_Co=256
+" Set this for Airline/ALE integration. Airline will handle the rest.
+let g:airline#extensions#ale#enabled = 1
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+let b:ale_linters = ['clang', 'clang-format', 'clangtidy', 'cppcheck', 'cpplint']
+" let g:ale_cpp_clangtidy_checks = ['*', '-cppcoreguidelines-pro-bounds-pointer-arithmetic']
+
 
 " NERDTree configuration
 " 2 lines for showing at startup if no files specified
@@ -28,10 +38,12 @@ autocmd FileType python map <buffer> <F3> :call Flake8()<CR>
 " Syntastic (https://github.com/scrooloose/syntastic)
 let g:syntastic_always_populate_loc_list = 1
 let g:javascript_plugin_jsdoc = 1
-let g:syntastic_python_checkers = ['pylint', 'pep8', 'pep257', 'pylama', 'pyflakes', 'frosted', 'mypy', 'prospector', 'pycodestyle', 'python']
+let g:syntastic_python_checkers = ['pep257', 'pylint', 'pep8', 'pylama', 'pyflakes', 'frosted', 'mypy', 'prospector', 'pycodestyle', 'python']
 
 " Instant Markdown
 let g:instant_markdown_slow = 1
+let g:syntastic_markdown_mdl_exec = 'markdownlint'
+let g:syntastic_markdown_mdl_args = ''
 
 " Sort words in a visual selection alphabetically.
 :vnoremap <F2> d:execute 'normal i' . join(sort(split(getreg('"'))), ' ')<CR>
@@ -75,7 +87,7 @@ nmap <silent> <A-Left> :wincmd h<CR>
 nmap <silent> <A-Right> :wincmd l<CR>
 
 " Appearance.
-set guifont=Andale\ Mono\ 9
+set guifont=Andale\ Mono\ 7
 colorscheme default
 set guioptions-=m " Remove menu.
 set guioptions-=r " Remove right sCRoll bar.
@@ -101,6 +113,7 @@ au BufNewFile,BufRead *.urdf set filetype=xml
 au BufNewFile,BufRead *.launch set filetype=xml
 au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
 au BufNewFile,BufFilePre,BufRead *.js set filetype=javascript
+au BufNewFile,BufFilePre,BufRead *.rosinstall set filetype=yaml
 filetype plugin on
 
 " Use different number of spaces per tab based on filename extension.
