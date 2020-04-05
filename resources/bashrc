@@ -58,3 +58,7 @@ termtitle() { printf "\033]0;$*\007"; }
 
 # https://stackoverflow.com/questions/39829230/git-does-not-ask-me-for-gpg-passphrase-and-fails-my-commit
 export GPG_TTY=$(tty)
+
+
+# https://davidwalsh.name/sort-git-branches
+git_ls_br_by_date() { git for-each-ref --sort='-committerdate' --format='%(refname)%09%(committerdate)' refs/heads | sed -e 's-refs/heads/--'; }
