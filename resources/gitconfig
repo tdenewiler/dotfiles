@@ -1,0 +1,36 @@
+[user]
+  name = Thomas Denewiler
+  email = me@email-provider.com
+  signingkey = ABCDEF1234567890
+[commit]
+  gpgSign = true
+[credential]
+  helper = cache --timeout 3600
+[merge]
+  tool = meld
+[mergetool]
+  tool = meld
+[alias]
+  st = status
+  ci = commit
+  co = checkout
+  br = branch
+  lol = log --graph --decorate --pretty=oneline --abbrev-commit
+  lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+[color]
+  branch = auto
+  diff = auto
+  interactive = auto
+  status = auto
+[core]
+  attributesfile = ~/.gitattributes
+  editor = vim
+[filter "lfs"]
+  process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+[init]
+  defaultBranch = main
+[pull]
+  ff = only
